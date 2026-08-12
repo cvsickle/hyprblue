@@ -26,7 +26,6 @@ COPR_REPOS=(
 	lionheartp/Hyprland # fix issue on fedora 44 -> https://github.com/solopasha/hyprlandRPM/issues/49
 	tofik/sway
 	ulysg/xwayland-satellite
-	yalter/niri
 )
 for repo in "${COPR_REPOS[@]}"; do
 	# Try to enable the repo, but don't fail the build if it doesn't support this Fedora version
@@ -150,24 +149,6 @@ if ! grep -qi "bazzite" /usr/lib/os-release 2>/dev/null; then
 	)
 fi
 
-# Niri and its dependencies from its default config.
-# commented out packages are already referenced in this file, OR they
-# are prebundled inside our parent image.
-NIRI_PKGS=(
-	niri
-	swaylock
-	# alacritty
-	# brightnessctl
-	# fuzzel
-	# mako
-	# waybar
-	# xwayland-satellite
-	# gnome-keyring
-	# wireplumber
-	# xdg-desktop-portal-gnome
-	# xdg-desktop-portal-gtk
-)
-
 # SDDM not set up properly yet, so this is just a placeholder.
 # For now you'll have to invoke Hyprland from the command line.
 SDDM_PACKAGES=()
@@ -204,7 +185,6 @@ dnf5 install --setopt=install_weak_deps=False --skip-unavailable -y \
 	"${FONTS[@]}" \
 	"${HYPR_DEPS[@]}" \
 	"${HYPR_PKGS[@]}" \
-	"${NIRI_PKGS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}"
 
