@@ -1,0 +1,27 @@
+{
+    "name": "hyprblue dev tools",
+    "runArgs": ["hyprblue-dev-tools"],
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "mounts": [
+        {
+            "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh",
+            "target": "/home/vscode/.ssh",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig",
+            "target": "/home/vscode/.gitconfig",
+            "type": "bind"
+        }
+    ],
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "github.vscode-github-actions"
+            ]
+        }
+    }
+}
