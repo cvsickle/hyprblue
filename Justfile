@@ -1,4 +1,4 @@
-export repo_organization := env("GITHUB_REPOSITORY_OWNER", "ashebanow")
+export repo_organization := env("GITHUB_REPOSITORY_OWNER", "cvsickle")
 export image_name := env("IMAGE_NAME", "hyprblue-open-video")
 export default_tag := env("DEFAULT_TAG", "latest")
 export base_image := env("BASE_IMAGE", "ghcr.io/ublue-os/bluefin-dx:latest")
