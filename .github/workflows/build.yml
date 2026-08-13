@@ -5,12 +5,12 @@ on:
     branches:
       - main
   schedule:
-    - cron: "05 10 * * *" # 10:05am UTC everyday
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - "**/README.md"
+    - cron: "05 11 * * THU"  # 11:05am UTC on Thursday
+  # push:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - "**/README.md"
   workflow_dispatch:
 
 env:
