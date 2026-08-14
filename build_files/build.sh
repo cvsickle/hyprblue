@@ -28,11 +28,14 @@ COPR_REPOS=(
 	ulysg/xwayland-satellite
 	imput/helium
 )
+
+ENABLED_REPOS=()
 for repo in "${COPR_REPOS[@]}"; do
-	# Try to enable the repo, but don't fail the build if it doesn't support this Fedora version
-	if ! dnf5 -y copr enable "$repo" 2>&1; then
-		log "Warning: Failed to enable COPR repo $repo (may not support Fedora $RELEASE)"
-	fi
+    if dnf5 -y copr enable "$repo" 2>&1; then
+        ENABLED_REPOS+=("$repo")
+    else
+        log "Warning: Failed to enable COPR repo $repo (may not support Fedora $RELEASE)"
+    fi
 done
 
 # log "Enable terra repositories..."
@@ -195,14 +198,6 @@ dnf5 install --setopt=install_weak_deps=False --skip-unavailable -y \
 ### Disable repositeories so they aren't cluttering up the final image
 
 log "Disable Copr repos to get rid of clutter..."
-ENABLED_REPOS=()
-for repo in "${COPR_REPOS[@]}"; do
-    if dnf5 -y copr enable "$repo" 2>&1; then
-        ENABLED_REPOS+=("$repo")
-    else
-        log "Warning: Failed to enable COPR repo $repo (may not support Fedora $RELEASE)"
-    fi
-done
 # ... install ...
 for repo in "${ENABLED_REPOS[@]}"; do
     dnf5 -y copr disable "$repo"
