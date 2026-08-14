@@ -1,50 +1,23 @@
-# HyprBlue & HyprBazzite
+# HyprBlue
 
 ## Purpose
 
-Custom bootc images based on [Universal Blue](https://universal-blue.org/) that come with a complete Hyprland and Niri install, in addition to their base desktop environments (Gnome for Bluefin, KDE for Bazzite). Also includes Google Chrome and 1Password preinstalled for proper integration.
+Custom bootc images based on [Universal Blue](https://universal-blue.org/) that come with a complete Hyprland install, in addition to its base desktop environment (Gnome for Bluefin). Also includes Helium Browser preinstalled for proper integration.
 
 ## Available Image Variants
 
-All images are available at `ghcr.io/ashebanow/`:
+All images are available at `ghcr.io/cvsickle/`:
 
 ### HyprBlue (Based on Bluefin)
 - **`hyprblue-open-video`** - Open source video drivers (based on `bluefin-dx:latest`)
 - **`hyprblue`** - Alias for `hyprblue-open-video` (for backwards compatibility)
 
-### HyprBazzite (Based on Bazzite)
-- **`hyprbazzite-open-video`** - Open source video drivers (based on `bazzite:latest`)
-- **`hyprbazzite-nvidia-open`** - NVIDIA open kernel modules (based on `bazzite-nvidia-open:latest`)
-
-## Important Notes
-
-### HyprBazzite Limitations
-
-Due to Qt version conflicts between Bazzite (Qt 6.10) and current Hyprland COPR packages (Qt 6.9), the following Qt-dependent packages are **not included** in HyprBazzite variants:
-
-- `hyprsysteminfo` - System info tool (use alternatives like `inxi`)
-- `hyprpolkitagent` - Hyprland-specific polkit agent (KDE's polkit agent will be used instead)
-- `hyprland-qt-support` - Qt integration support
-
-**Polkit Agent Workaround:** Since `hyprpolkitagent` is not available, you'll need to configure KDE's polkit agent to float properly in Hyprland. Add this to your Hyprland config:
-
-```
-windowrulev2 = float, class:^(org.kde.polkit-kde-authentication-agent-1)$
-windowrulev2 = center, class:^(org.kde.polkit-kde-authentication-agent-1)$
-```
-
-Alternatively, install `polkit-gnome` and configure it to autostart.
-
-These packages will be added back when the COPR maintainer rebuilds them against Qt 6.10.
-
 ## How to Use
 
 ### 1. Install Base System
 
-Install either Bluefin or Bazzite from ISO:
+Install Bluefin from ISO:
 - For HyprBlue: Install bluefin-dx
-- For HyprBazzite (open video): Install bazzite
-- For HyprBazzite (NVIDIA): Install bazzite-nvidia-open
 
 Set up LUKS/TPM/Secure Boot as needed during installation.
 
@@ -55,12 +28,6 @@ Choose the appropriate variant for your system:
 ```bash
 # HyprBlue (Bluefin-based):
 sudo bootc switch ghcr.io/ashebanow/hyprblue-open-video
-
-# HyprBazzite (Bazzite-based, open video drivers):
-sudo bootc switch ghcr.io/ashebanow/hyprbazzite-open-video
-
-# HyprBazzite (Bazzite-based, NVIDIA open drivers):
-sudo bootc switch ghcr.io/ashebanow/hyprbazzite-nvidia-open
 
 # Alias (points to hyprblue-open-video):
 sudo bootc switch ghcr.io/ashebanow/hyprblue
