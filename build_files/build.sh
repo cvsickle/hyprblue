@@ -177,6 +177,8 @@ ADDITIONAL_SYSTEM_APPS=(
 	thunar
 	thunar-volman
 	thunar-archive-plugin
+
+	helium-bin
 )
 
 # we do all package installs in one rpm-ostree command
@@ -188,38 +190,6 @@ dnf5 install --setopt=install_weak_deps=False --skip-unavailable -y \
 	"${HYPR_PKGS[@]}" \
 	"${SDDM_PACKAGES[@]}" \
 	"${ADDITIONAL_SYSTEM_APPS[@]}"
-
-#######################################################################
-### workaround for helium-bin
-log "Downloading and extracting helium-bin..."
-
-# 1. Download the RPM into a temporary space
-TEMP_DIR=$(mktemp -d)
-dnf5 download --destdir="$TEMP_DIR" helium-bin
-
-# 2. Extract contents via cpio, ignoring the problematic /opt directory metadata
-cd "$TEMP_DIR"
-rpm2cpio helium-bin-*.rpm | cpio -idmv
-
-# 3. Move the binary tree into the immutable /usr system path
-mkdir -p /usr/lib/helium
-cp -r opt/helium/* /usr/lib/helium/
-
-# 4. Symlink the main binary into /usr/bin so it is in the user's PATH
-mkdir -p /usr/bin
-ln -sf /usr/lib/helium/helium /usr/bin/helium
-
-# 5. Correct desktop/icon paths if included by the packager
-if [ -d "usr/share/applications" ]; then
-	cp -r usr/share/applications/* /usr/share/applications/
-fi
-if [ -d "usr/share/icons" ]; then
-	cp -r usr/share/icons/* /usr/share/icons/
-fi
-
-# 6. Clean up temporary files
-cd -
-rm -rf "$TEMP_DIR"
 
 #######################################################################
 ### Disable repositeories so they aren't cluttering up the final image
