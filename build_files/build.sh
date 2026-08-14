@@ -26,6 +26,7 @@ COPR_REPOS=(
 	lionheartp/Hyprland # fix issue on fedora 44 -> https://github.com/solopasha/hyprlandRPM/issues/49
 	tofik/sway
 	ulysg/xwayland-satellite
+	imput/helium
 )
 for repo in "${COPR_REPOS[@]}"; do
 	# Try to enable the repo, but don't fail the build if it doesn't support this Fedora version
@@ -176,6 +177,8 @@ ADDITIONAL_SYSTEM_APPS=(
 	thunar
 	thunar-volman
 	thunar-archive-plugin
+
+	helium-bin
 )
 
 # we do all package installs in one rpm-ostree command
